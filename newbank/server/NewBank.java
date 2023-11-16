@@ -1,7 +1,5 @@
 package newbank.server;
 import java.util.ArrayList;
-
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class NewBank {
@@ -37,7 +35,7 @@ public class NewBank {
 	public synchronized CustomerID checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
-			if (customer.getPasswordHash().equals(hashPassword(password))) {
+			if (customer.getPasswordHash().equals(customer.hashPassword(password))) {
 				return new CustomerID(userName);
 			}
 		}

@@ -1,8 +1,9 @@
 package newbank.server;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.ArrayList;
+import java.util.Base64;
+
 
 public class Customer {
 
@@ -10,14 +11,17 @@ public class Customer {
 	private ArrayList<Account> accounts;
 
 	
-	public Customer() {
+	public Customer(String password) {
 
 		this.passwordHash = hashPassword(password);
 		this.accounts = new ArrayList<>();
 	}
 
+	public String getPasswordHash() {
+		return passwordHash;
+	}
 
-	private String hashPassword(String password) {
+	public String hashPassword(String password) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] hashBytes = digest.digest(password.getBytes());
