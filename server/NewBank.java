@@ -1,4 +1,5 @@
 package newbank.server;
+import java.util.ArrayList;
 
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ public class NewBank {
 		customers = new HashMap<>();
 		addTestData();
 	}
-	
+
 	private void addTestData() {
 		Customer bhagy = new Customer("password1");
 		bhagy.addAccount(new Account("Main", 1000.0));
@@ -33,12 +34,13 @@ public class NewBank {
 	public synchronized CustomerID checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
-			if (BCrypt.checkpw(password, customer.getPasswordHash())) {
+			if (customer.getPasswordHash().equals(hashPassword(password))) {
 				return new CustomerID(userName);
 			}
 		}
 		return null;
 	}
+
 
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
@@ -49,6 +51,19 @@ public class NewBank {
 			}
 		}
 		return "FAIL";
+	}
+
+	private String hashPassword(String password) {
+		// Same hash function as used in the Customer class
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			byte[] hashBytes = digest.digest(password.getBytes());
+			return Base64.getEncoder().encodeToString(hashBytes);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			// Handle exception appropriately, for example, throw a custom exception
+			return null;
+		}
 	}
 	
 	private String showMyAccounts(CustomerID customer) {
