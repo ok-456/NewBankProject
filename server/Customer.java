@@ -1,13 +1,18 @@
 package newbank.server;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 
 public class Customer {
 	
 	private ArrayList<Account> accounts;
+	private String passwordHash;
+
 	
 	public Customer() {
-		accounts = new ArrayList<>();
+
+		this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+		this.accounts = new ArrayList<>();
 	}
 	
 	public String accountsToString() {
