@@ -13,15 +13,15 @@ public class NewBank {
 	}
 	
 	private void addTestData() {
-		Customer bhagy = new Customer();
+		Customer bhagy = new Customer("password1");
 		bhagy.addAccount(new Account("Main", 1000.0));
 		customers.put("Bhagy", bhagy);
-		
-		Customer christina = new Customer();
+
+		Customer christina = new Customer("password2");
 		christina.addAccount(new Account("Savings", 1500.0));
 		customers.put("Christina", christina);
-		
-		Customer john = new Customer();
+
+		Customer john = new Customer("password3");
 		john.addAccount(new Account("Checking", 250.0));
 		customers.put("John", john);
 	}
@@ -29,10 +29,13 @@ public class NewBank {
 	public static NewBank getBank() {
 		return bank;
 	}
-	
+
 	public synchronized CustomerID checkLogInDetails(String userName, String password) {
-		if(customers.containsKey(userName)) {
-			return new CustomerID(userName);
+		if (customers.containsKey(userName)) {
+			Customer customer = customers.get(userName);
+			if (BCrypt.checkpw(password, customer.getPasswordHash())) {
+				return new CustomerID(userName);
+			}
 		}
 		return null;
 	}
