@@ -1,5 +1,6 @@
 package newbank.server;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class NewBank {
@@ -37,11 +38,18 @@ public class NewBank {
 		return null;
 	}
 
+
+
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
+		String[] requestParts = request.split(" ");
+		String command = requestParts[0];
+		String[] arguments = Arrays.copyOfRange(requestParts, 1, requestParts.length);
+
 		if(customers.containsKey(customer.getKey())) {
-			switch(request) {
+			switch(command) {
 			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
+			case "NEWACCOUNT": return addNewAccount(customer, arguments);
 			default : return "FAIL";
 			}
 		}
@@ -52,4 +60,34 @@ public class NewBank {
 		return (customers.get(customer.getKey())).accountsToString();
 	}
 
+	/**
+	 * Adds a new account to the customer's account list
+	 * @param customer The customer to add the account to
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
+	private String addNewAccount(CustomerID customer, String[] arguments)
+	{
+		String name;
+
+		if (arguments.length > 0) {
+			name = arguments[0];
+		} else {
+			return "FAIL";
+		}
+
+		Customer accountHolder = customers.get(customer.getKey());
+
+		if(accountHolder == null || name == null || name.isEmpty()) {
+			return "FAIL";
+		}
+
+		if(accountHolder.hasAccount(name)) {
+			return "FAIL";
+		}
+
+		accountHolder.addAccount(new Account(name, 0.00));
+
+		return "SUCCESS";
+	}
 }

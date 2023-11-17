@@ -18,6 +18,15 @@ public class Customer {
 		return s;
 	}
 
+	/**
+	 * Check to see if the customer has an account with the given name
+	 * @param accountName
+	 * @return true if the customer has an account with the given name
+	 */
+	public boolean hasAccount(String accountName) {
+		return  accounts.stream().anyMatch(account -> accountName.toLowerCase().equals(account.toString().split(":")[0].trim().toLowerCase()));
+	}
+
 	public void addAccount(Account account) {
 		accounts.add(account);		
 	}
