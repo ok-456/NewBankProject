@@ -60,10 +60,12 @@ public class NewBank {
 
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
-		if(customers.containsKey(customer.getKey())) {
-			switch(request) {
-			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
-			default : return "FAIL";
+		if (customers.containsKey(customer.getKey())) {
+			switch (request) {
+				case "SHOWMYACCOUNTS":
+					return showMyAccounts(customer);
+				default:
+					return "FAIL"; // Return "FAIL" for unrecognized commands
 			}
 		}
 		return "FAIL";
@@ -81,9 +83,14 @@ public class NewBank {
 			return null;
 		}
 	}
-	
-	private String showMyAccounts(CustomerID customer) {
-		return (customers.get(customer.getKey())).accountsToString();
-	}
 
+	private String showMyAccounts(CustomerID customer) {
+		// Check if the customer has accounts
+		Customer customerObj = customers.get(customer.getKey());
+		if (customerObj != null && !customerObj.getAccounts().isEmpty()) {
+			return customerObj.accountsToString();
+		} else {
+			return "You have no accounts.";
+		}
+	}
 }

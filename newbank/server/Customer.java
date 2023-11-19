@@ -10,7 +10,14 @@ public class Customer {
 	private String passwordHash;
 	private ArrayList<Account> accounts;
 
-	
+	public ArrayList<Account> getAccounts() {
+		return accounts;
+	}
+
+	public boolean hasAccounts() {
+		return !accounts.isEmpty();
+	}
+
 	public Customer(String password) {
 
 		this.passwordHash = hashPassword(password);
