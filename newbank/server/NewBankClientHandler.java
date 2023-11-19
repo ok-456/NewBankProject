@@ -38,7 +38,23 @@ public class NewBankClientHandler extends Thread {
 					loginSuccessful = true;
 
 					while (true) {
-						// ... existing code
+
+						String request = in.readLine();
+						System.out.println("Request from " + userName);
+						String response = bank.processRequest(new CustomerID(userName), request);
+
+						// Check for null response
+						if (response != null) {
+							if (response.equals("FAIL")) {
+								out.println("Invalid command. Try again.");
+							} else {
+								out.println(response);
+							}
+						} else {
+							System.out.println("Server error: Null response");
+							// Break out of the loop if the server response is null
+							break;
+						}
 					}
 				} else if (loginResult.contains("Would you like to register? (yes/no)")) {
 					out.println(loginResult);
