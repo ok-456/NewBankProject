@@ -29,7 +29,7 @@ public class Customer {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			// Handle exception appropriately, for example, throw a custom exception
-			return null;
+			return "not working";
 		}
 	}
 	

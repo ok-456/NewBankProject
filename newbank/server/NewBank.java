@@ -33,14 +33,17 @@ public class NewBank {
 		return bank;
 	}
 
-	public synchronized CustomerID checkLogInDetails(String userName, String password) {
+	public synchronized String checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
-			if (customer.getPasswordHash().equals(customer.hashPassword(password))) {
-				return new CustomerID(userName);
+			if (customer.getPasswordHash().equals(hashPassword(password))) {
+				return "Login successful. Welcome, " + userName + "!";
+			} else {
+				return "Incorrect password for user " + userName + ". Please try again.";
 			}
+		} else {
+			return "User " + userName + " not found. Please check your username and try again.";
 		}
-		return null;
 	}
 
 
