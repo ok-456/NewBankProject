@@ -41,7 +41,18 @@ public class NewBank {
 				return "Incorrect password for user " + userName + ". Please try again.";
 			}
 		} else {
-			return "User " + userName + " not found. Please check your username and try again.";
+			return "User " + userName + " not found. Would you like to register? (yes/no)";
+		}
+	}
+
+	// New method for user registration
+	public synchronized String registerUser(String userName, String password) {
+		if (customers.containsKey(userName)) {
+			return "Registration failed: Username already exists.";
+		} else {
+			Customer newCustomer = new Customer(password);
+			customers.put(userName, newCustomer);
+			return "Registration successful. Welcome, " + userName + "!";
 		}
 	}
 

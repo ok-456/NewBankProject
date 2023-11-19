@@ -18,8 +18,6 @@ public class NewBankClientHandler extends Thread {
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		out = new PrintWriter(s.getOutputStream(), true);
 	}
-
-
 	public void run() {
 		boolean loginSuccessful = false;
 
@@ -35,23 +33,32 @@ public class NewBankClientHandler extends Thread {
 
 				String loginResult = bank.checkLogInDetails(userName, password);
 
-				// Authenticate user and get customer ID token from the bank for use in subsequent requests
 				if (loginResult.contains("Login successful")) {
 					out.println("Log In Successful. What do you want to do?");
 					loginSuccessful = true;
 
 					while (true) {
-						String request = in.readLine();
-						System.out.println("Request from " + userName);
-						String response = bank.processRequest(new CustomerID(userName), request);
+						// ... existing code
+					}
+				} else if (loginResult.contains("Would you like to register? (yes/no)")) {
+					out.println(loginResult);
+					String registerChoice = in.readLine();
+					if (registerChoice.equalsIgnoreCase("yes")) {
+						out.println("Enter a new Password");
+						String newPassword = in.readLine();
+						out.println("Confirm your Password");
+						String confirmPassword = in.readLine();
 
-						// Check for null response
-						if (response != null) {
-							out.println(response);
+						if (newPassword.equals(confirmPassword)) {
+							String registerResult = bank.registerUser(userName, newPassword);
+							out.println(registerResult);
+
+							if (registerResult.contains("Registration successful")) {
+								out.println("Log In Successful. What do you want to do?");
+								loginSuccessful = true;
+							}
 						} else {
-							out.println("Server error: Null response");
-							// Break out of the loop if the server response is null
-							break;
+							out.println("Registration failed: Passwords do not match. Please try again.");
 						}
 					}
 				} else {
