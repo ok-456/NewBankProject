@@ -7,9 +7,14 @@ import java.net.Socket;
 public class NewBankServer extends Thread{
 	
 	private ServerSocket server;
+	private UserManager userManager;
 	
 	public NewBankServer(int port) throws IOException {
 		server = new ServerSocket(port);
+		userManager = new UserManager();
+
+		//Load user data on server startup
+		userManager.loadUserData(NewBank.getBank().getCustomers());
 	}
 	
 	public void run() {
@@ -25,6 +30,7 @@ public class NewBankServer extends Thread{
 			e.printStackTrace();
 		}
 		finally {
+			userManager.saveUserData(NewBank.getBank().getCustomers());
 			try {
 				server.close();
 			} catch (IOException e) {

@@ -1,18 +1,17 @@
 package newbank.server;
-import java.util.ArrayList;
 
 import java.util.Arrays;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.Map;
 import java.util.HashMap;
 
 public class NewBank {
-	
+
 	private static final NewBank bank = new NewBank();
-	private HashMap<String,Customer> customers;
-	
+	private UserManager userManager;
+	private HashMap<String, Customer> customers;
+
 	private NewBank() {
+		userManager = new UserManager();
 		customers = new HashMap<>();
 		addTestData();
 	}
@@ -32,29 +31,40 @@ public class NewBank {
 		john.addAccount(new Account("Savings", 1500.0));
 		customers.put("John", john);
 	}
-	
+
 	public static NewBank getBank() {
 		return bank;
+	}
+
+	public Map<String, Customer> getCustomers() {
+		return customers;
 	}
 
 	public synchronized String checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
-			if (customer.getPasswordHash().equals(hashPassword(password))) {
+			if (customer.getPassword().equals(password)) {
 				return "Login successful. Welcome, " + userName + "!";
 			} else {
 				return "Incorrect password for user " + userName + ". Please try again.";
 			}
 		} else {
-			return "User " + userName + " not found. Would you like to register? (yes/no)";
+			// Check if the user exists in the loaded user data
+			if (userManager.checkUserExists(userName, password)) {
+				return "Login successful. Welcome, " + userName + "!";
+			} else {
+				return "User " + userName + " not found. Would you like to register? (yes/no)";
+			}
 		}
 	}
 
-	// New method for user registration
+	// NewBank class
 	public synchronized String registerUser(String userName, String password) {
 		if (!customers.containsKey(userName)) {
 			// Create a new customer and add it to the customers HashMap
 			Customer newCustomer = new Customer(password);
+			newCustomer.setPassword(password); // Set plaintext password
+
 			customers.put(userName, newCustomer);
 			return "Registration successful. Welcome, " + userName + "!";
 		} else {
@@ -62,49 +72,41 @@ public class NewBank {
 		}
 	}
 
-
-
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
 		String[] requestParts = request.split(" ");
 		String command = requestParts[0];
 		String[] arguments = Arrays.copyOfRange(requestParts, 1, requestParts.length);
 
-		if(customers.containsKey(customer.getKey())) {
-			switch(command) {
-				case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
-				case "NEWACCOUNT": return addNewAccount(customer, arguments);
-				default : return "FAIL";
+		if (customers.containsKey(customer.getKey())) {
+			switch (command) {
+				case "SHOWMYACCOUNTS":
+					return showMyAccounts(customer);
+				case "NEWACCOUNT":
+					return addNewAccount(customer, arguments);
+				default:
+					return "FAIL";
 			}
 		}
 		return "FAIL";
 	}
 
-	private String hashPassword(String password) {
-		// Same hash function as used in the Customer class
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hashBytes = digest.digest(password.getBytes());
-			return Base64.getEncoder().encodeToString(hashBytes);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			// Handle exception appropriately, for example, throw a custom exception
-			return null;
-		}
-	}
-
 	private String showMyAccounts(CustomerID customer) {
 		if (customers.containsKey(customer.getKey())) {
-			return customers.get(customer.getKey()).accountsToString();
+			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
+				return "NO ACCOUNTS";
+			} else {
+				return customers.get(customer.getKey()).accountsToString();
+			}
 		} else {
 			return "FAIL";  // or an appropriate message
 		}
 	}
 
-	private String addNewAccount(CustomerID customer, String[] arguments)
-	{
-		String name;
+	private String addNewAccount(CustomerID customer, String[] arguments) {
+		String addNewAccountResult;
 
+		String name;
 		if (arguments.length > 0) {
 			name = arguments[0];
 		} else {
@@ -113,15 +115,18 @@ public class NewBank {
 
 		Customer accountHolder = customers.get(customer.getKey());
 
-		if(accountHolder == null || name == null || name.isEmpty()) {
+		if (accountHolder == null || name == null || name.isEmpty()) {
 			return "FAIL";
 		}
 
-		if(accountHolder.hasAccount(name)) {
+		if (accountHolder.hasAccount(name)) {
 			return "FAIL";
 		}
 
 		accountHolder.addAccount(new Account(name, 0.00));
+
+		// Save the updated user data
+		userManager.saveUserData(customers);
 
 		return "SUCCESS";
 	}

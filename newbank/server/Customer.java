@@ -1,13 +1,15 @@
 package newbank.server;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.io.Serializable;
 
 
-public class Customer {
+public class Customer implements Serializable {
 
-	private String passwordHash;
+	private String password;
 	private ArrayList<Account> accounts;
 
 	public ArrayList<Account> getAccounts() {
@@ -25,25 +27,19 @@ public class Customer {
 
 	public Customer(String password) {
 
-		this.passwordHash = hashPassword(password);
+		this.password = password;
 		this.accounts = new ArrayList<>();
 	}
 
-	public String getPasswordHash() {
-		return passwordHash;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String hashPassword(String password) {
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hashBytes = digest.digest(password.getBytes());
-			return Base64.getEncoder().encodeToString(hashBytes);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			// Handle exception appropriately, for example, throw a custom exception
-			return "not working";
-		}
+	public String getPassword() {
+		return password;
 	}
+
+
 	public String accountsToString() {
 		StringBuilder accountsList = new StringBuilder();
 		for (Account acc : accounts) {
@@ -53,6 +49,6 @@ public class Customer {
 	}
 
 	public void addAccount(Account account) {
-		accounts.add(account);		
+		accounts.add(account);
 	}
 }
