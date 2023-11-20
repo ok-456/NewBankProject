@@ -1,4 +1,7 @@
+
 .idea
 out
 *.iml
+/out/production/
+
 /out/production/
