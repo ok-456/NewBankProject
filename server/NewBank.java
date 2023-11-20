@@ -38,9 +38,11 @@ public class NewBank {
 		return bank;
 	}
 
+	// Returns customer map
 	public Map<String, Customer> getCustomers() {
 		return customers;
 	}
+
 
 	// Checks login details
 	public synchronized String checkLogInDetails(String userName, String password) {
@@ -57,6 +59,7 @@ public class NewBank {
 
 		}
 	}
+
 	public synchronized String registerUser(String userName, String password) {
 		if (!customers.containsKey(userName)) {
 			// Create a new customer and add it to the customers HashMap
@@ -97,27 +100,6 @@ public class NewBank {
 	}
 
 	private String showMyAccounts(CustomerID customer) {
-		if (customers.containsKey(customer.getKey())) {
-			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
-				return "NO ACCOUNTS";
-			} else {
-				return customers.get(customer.getKey()).accountsToString();
-			}
-		} else {
-			return "FAIL";  // or an appropriate message
-		}
-	}
-
-	/**
-	 * Adds a new account to the customer's account list
-	 * @param customer The customer to add the account to
-	 * @param arguments The arguments passed in by the user
-	 * @return A string indicating whether the operation was successful or not
-	 */
-	private String addNewAccount(CustomerID customer, String[] arguments)
-	{
-		String name;
-
 		if (customers.containsKey(customer.getKey())) {
 			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
 				return "NO ACCOUNTS";
