@@ -8,7 +8,11 @@ public class NewBankServer extends Thread{
 
 	private ServerSocket server;
 	private UserManager userManager;
+<<<<<<< HEAD:server/NewBankServer.java
 
+=======
+	
+>>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBankServer.java
 	public NewBankServer(int port) throws IOException {
 		server = new ServerSocket(port);
 		userManager = new UserManager();
@@ -30,7 +34,10 @@ public class NewBankServer extends Thread{
 			e.printStackTrace();
 		}
 		finally {
+<<<<<<< HEAD:server/NewBankServer.java
 			//Saves any new entry to the user_data.txt upon server connection close
+=======
+>>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBankServer.java
 			userManager.saveUserData(NewBank.getBank().getCustomers());
 			try {
 				server.close();
