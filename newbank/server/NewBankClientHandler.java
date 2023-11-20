@@ -19,9 +19,6 @@ public class NewBankClientHandler extends Thread {
 		out = new PrintWriter(s.getOutputStream(), true);
 	}
 
-	private void runInnerLoop(){
-
-	}
 	public void run() {
 		boolean loginSuccessful = false;
 
@@ -37,10 +34,12 @@ public class NewBankClientHandler extends Thread {
 
 				String loginResult = bank.checkLogInDetails(userName, password);
 
+				// If login is successful, allow the user to interact with their accounts
 				if (loginResult.contains("Login successful")) {
 					out.println("Log In Successful. What do you want to do?");
 					loginSuccessful = true;
 
+					//Main loop to process users requests
 					while (true) {
 
 						String request = in.readLine();
@@ -60,6 +59,8 @@ public class NewBankClientHandler extends Thread {
 							break;
 						}
 					}
+
+					// Similar logic for creating new users if user prompted does not exist in map
 				} else if (loginResult.contains("Would you like to register? (yes/no)")) {
 					out.println(loginResult);
 					String registerChoice = in.readLine();

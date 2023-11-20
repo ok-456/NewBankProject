@@ -33,10 +33,13 @@ public class NewBank {
 		return bank;
 	}
 
+	// Returns customer map
 	public Map<String, Customer> getCustomers() {
 		return customers;
 	}
 
+
+	// Checks login details
 	public synchronized String checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
@@ -46,16 +49,12 @@ public class NewBank {
 				return "Incorrect password for user " + userName + ". Please try again.";
 			}
 		} else {
-			// Check if the user exists in the loaded user data
-			if (userManager.checkUserExists(userName, password)) {
-				return "Login successful. Welcome, " + userName + "!";
-			} else {
-				return "User " + userName + " not found. Would you like to register? (yes/no)";
-			}
+
+			return "User " + userName + " not found. Would you like to register? (yes/no)";
+
 		}
 	}
 
-	// NewBank class
 	public synchronized String registerUser(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			return "Registration failed: Username already exists.";
@@ -82,6 +81,13 @@ public class NewBank {
 		}
 	}
 
+
+	/**
+	 * Adds a new account to the customer's account list
+	 * @param customer The customer to add the account to
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
 	private String addNewAccount(CustomerID customer, String[] arguments) {
 		String addNewAccountResult;
 
@@ -104,7 +110,7 @@ public class NewBank {
 
 		accountHolder.addAccount(new Account(name, 0.00));
 
-		// Save the new accounts to the text file
+		// Save the updated user data
 		userManager.saveUserData(customers);
 
 		return "SUCCESS";
