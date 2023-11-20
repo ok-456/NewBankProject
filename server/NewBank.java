@@ -1,26 +1,17 @@
 package newbank.server;
 
 import java.util.Arrays;
-<<<<<<< HEAD:server/NewBank.java
-=======
 import java.util.Map;
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 import java.util.HashMap;
 import java.util.Map;
 
 public class NewBank {
 
 	private static final NewBank bank = new NewBank();
-<<<<<<< HEAD:server/NewBank.java
 
 	private UserManager userManager;
 	private HashMap<String,Customer> customers;
-	
-=======
-	private UserManager userManager;
-	private HashMap<String, Customer> customers;
 
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 	private NewBank() {
 		userManager = new UserManager();
 		customers = new HashMap<>();
@@ -47,19 +38,11 @@ public class NewBank {
 		return bank;
 	}
 
-<<<<<<< HEAD:server/NewBank.java
-	// Returns customer map
-=======
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 	public Map<String, Customer> getCustomers() {
 		return customers;
 	}
 
-<<<<<<< HEAD:server/NewBank.java
-
 	// Checks login details
-=======
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 	public synchronized String checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
@@ -69,34 +52,21 @@ public class NewBank {
 				return "Incorrect password for user " + userName + ". Please try again.";
 			}
 		} else {
-<<<<<<< HEAD:server/NewBank.java
 
 			return "User " + userName + " not found. Would you like to register? (yes/no)";
 
 		}
 	}
-
-=======
-			// Check if the user exists in the loaded user data
-			if (userManager.checkUserExists(userName, password)) {
-				return "Login successful. Welcome, " + userName + "!";
-			} else {
-				return "User " + userName + " not found. Would you like to register? (yes/no)";
-			}
-		}
-	}
-
-	// NewBank class
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 	public synchronized String registerUser(String userName, String password) {
-		if (customers.containsKey(userName)) {
-			return "Registration failed: Username already exists.";
-		} else {
+		if (!customers.containsKey(userName)) {
+			// Create a new customer and add it to the customers HashMap
 			Customer newCustomer = new Customer(password);
 			newCustomer.setPassword(password); // Set plaintext password
 
 			customers.put(userName, newCustomer);
 			return "Registration successful. Welcome, " + userName + "!";
+		} else {
+			return "Registration failed: User already exists. Please choose a different username.";
 		}
 	}
 
@@ -106,46 +76,27 @@ public class NewBank {
 		String command = requestParts[0];
 		String[] arguments = Arrays.copyOfRange(requestParts, 1, requestParts.length);
 
-<<<<<<< HEAD:server/NewBank.java
-		if(customers.containsKey(customer.getKey())) {
-			switch(command) {
-			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
-			case "NEWACCOUNT": return addNewAccount(customer, arguments);
-			case "MOVE": return moveMoney(customer, arguments);
-			case "EXIT" : return null;
-			case "exit" : return null;
-
-			default : return "FAIL";
-=======
 		if (customers.containsKey(customer.getKey())) {
 			switch (command) {
 				case "SHOWMYACCOUNTS":
 					return showMyAccounts(customer);
 				case "NEWACCOUNT":
 					return addNewAccount(customer, arguments);
+				case "MOVE":
+					return moveMoney(customer, arguments);
+				case "EXIT":
+					return null;
+				case "exit":
+					return null;
+
 				default:
 					return "FAIL";
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 			}
+			return "FAIL";
 		}
-		return "FAIL";
 	}
 
 	private String showMyAccounts(CustomerID customer) {
-<<<<<<< HEAD:server/NewBank.java
-		return (customers.get(customer.getKey())).accountsToString();
-	}
-
-	/**
-	 * Adds a new account to the customer's account list
-	 * @param customer The customer to add the account to
-	 * @param arguments The arguments passed in by the user
-	 * @return A string indicating whether the operation was successful or not
-	 */
-	private String addNewAccount(CustomerID customer, String[] arguments)
-	{
-		String name;
-=======
 		if (customers.containsKey(customer.getKey())) {
 			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
 				return "NO ACCOUNTS";
@@ -157,9 +108,35 @@ public class NewBank {
 		}
 	}
 
+	/**
+	 * Adds a new account to the customer's account list
+	 * @param customer The customer to add the account to
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
+	private String addNewAccount(CustomerID customer, String[] arguments)
+	{
+		String name;
+
+		if (customers.containsKey(customer.getKey())) {
+			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
+				return "NO ACCOUNTS";
+			} else {
+				return customers.get(customer.getKey()).accountsToString();
+			}
+		} else {
+			return "FAIL";  // or an appropriate message
+		}
+	}
+
+	/**
+	 * Adds a new account to the customer's account list
+	 * @param customer The customer to add the account to
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
 	private String addNewAccount(CustomerID customer, String[] arguments) {
 		String addNewAccountResult;
->>>>>>> 9b9fd66 (removed password hashing, user details are now stored in plaintext and saved in txt file):newbank/server/NewBank.java
 
 		String name;
 		if (arguments.length > 0) {
@@ -178,16 +155,12 @@ public class NewBank {
 			return "FAIL";
 		}
 
-		// Save the updated user data
-		userManager.saveUserData(customers);
-
 		accountHolder.addAccount(new Account(name, 0.00));
 
 		// Save the updated user data
 		userManager.saveUserData(customers);
 
 		return "SUCCESS";
-
 	}
 
 	/**

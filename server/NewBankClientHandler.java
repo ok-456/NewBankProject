@@ -43,24 +43,8 @@ public class NewBankClientHandler extends Thread {
 				} else if (loginResult.contains("Would you like to register? (yes/no)")) {
 					out.println(loginResult);
 					String registerChoice = in.readLine();
-					if (registerChoice.equalsIgnoreCase("yes")) {
-						out.println("Enter a new Password");
-						String newPassword = in.readLine();
-						out.println("Confirm your Password");
-						String confirmPassword = in.readLine();
-
-						if (newPassword.equals(confirmPassword)) {
-							String registerResult = bank.registerUser(userName, newPassword);
-							out.println(registerResult);
-
-							if (registerResult.contains("Registration successful")) {
-								out.println("Log In Successful. What do you want to do?");
-								loginSuccessful = true;
-							}
-						} else {
-							out.println("Registration failed: Passwords do not match. Please try again.");
-						}
-
+					if (registerChoice.equalsIgnoreCase(("yes"))) {
+						performRegistration(userName);
 					}
 				} else {
 					out.println("Login failed: " + loginResult);
