@@ -1,0 +1,4 @@
+John:password3:Checking,250.0:Main,1000.0:Savings,1500.0
+Christina:password2:Savings,1500.0
+homer:simpson:checking,0.0
+Bhagy:password1:Main,1000.0
