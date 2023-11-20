@@ -14,8 +14,13 @@ public class Customer {
 		return accounts;
 	}
 
-	public boolean hasAccounts() {
-		return !accounts.isEmpty();
+	/**
+	 * Check to see if the customer has an account with the given name
+	 * @param accountName
+	 * @return true if the customer has an account with the given name
+	 */
+	public boolean hasAccount(String accountName) {
+		return  accounts.stream().anyMatch(account -> accountName.toLowerCase().equals(account.toString().split(":")[0].trim().toLowerCase()));
 	}
 
 	public Customer(String password) {
@@ -39,13 +44,12 @@ public class Customer {
 			return "not working";
 		}
 	}
-	
 	public String accountsToString() {
-		String s = "";
-		for(Account a : accounts) {
-			s += a.toString();
+		StringBuilder accountsList = new StringBuilder();
+		for (Account acc : accounts) {
+			accountsList.append(acc.getName()).append(": ").append(acc.getBalance()).append("\n");
 		}
-		return s;
+		return accountsList.toString().trim(); // Remove the last newline character
 	}
 
 	public void addAccount(Account account) {

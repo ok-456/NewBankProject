@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-
-
 public class NewBankClientHandler extends Thread {
 	private NewBank bank;
 	private BufferedReader in;
@@ -72,6 +70,27 @@ public class NewBankClientHandler extends Thread {
 							if (registerResult.contains("Registration successful")) {
 								out.println("Log In Successful. What do you want to do?");
 								loginSuccessful = true;
+
+								while (true) {
+
+									String request = in.readLine();
+									System.out.println("Request from " + userName);
+									String response = bank.processRequest(new CustomerID(userName), request);
+									System.out.println(response);
+
+									// Check for null response
+									if (response != null) {
+										if (response.equals("FAIL")) {
+											out.println("Invalid command. Try again.");
+										} else {
+											out.println(response);
+										}
+									} else {
+										System.out.println("Server error: Null response");
+										// Break out of the loop if the server response is null
+										break;
+									}
+								}
 							}
 						} else {
 							out.println("Registration failed: Passwords do not match. Please try again.");
