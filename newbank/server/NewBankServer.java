@@ -30,6 +30,7 @@ public class NewBankServer extends Thread{
 			e.printStackTrace();
 		}
 		finally {
+			//Saves any new entry to the user_data.txt upon server connection close
 			userManager.saveUserData(NewBank.getBank().getCustomers());
 			try {
 				server.close();

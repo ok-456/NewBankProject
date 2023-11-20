@@ -1,11 +1,11 @@
 package newbank.server;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 
 public class UserManager {
 
+    //Text file that allows new user accounts as well as adding new accounts to existing users
     private static final String USER_DATA_FILE = "user_data.txt";
 
     public void loadUserData(Map<String, Customer> users) {
@@ -15,7 +15,7 @@ public class UserManager {
             // Create a new file if it doesn't exist
             if (!file.exists()) {
                 file.createNewFile();
-                return; // No need to proceed further as the file is new and empty
+                return;
             }
 
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {

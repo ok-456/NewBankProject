@@ -18,6 +18,10 @@ public class NewBankClientHandler extends Thread {
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		out = new PrintWriter(s.getOutputStream(), true);
 	}
+
+	private void runInnerLoop(){
+
+	}
 	public void run() {
 		boolean loginSuccessful = false;
 
