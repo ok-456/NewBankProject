@@ -1,13 +1,8 @@
 package newbank.server;
-import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.io.Serializable;
 
 
-public class Customer implements Serializable {
+public class Customer {
 
 	private String password;
 	private ArrayList<Account> accounts;
@@ -38,7 +33,6 @@ public class Customer implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-
 
 	public String accountsToString() {
 		StringBuilder accountsList = new StringBuilder();

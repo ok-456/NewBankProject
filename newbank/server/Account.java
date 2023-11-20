@@ -1,11 +1,8 @@
 package newbank.server;
 
-import java.io.Serializable;
 
-public class Account implements  Serializable{
+public class Account {
 
-	private static final long serialVersionUID = 1L;
-	
 	private String accountName;
 	private double openingBalance;
 

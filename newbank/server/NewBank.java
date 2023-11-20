@@ -125,7 +125,7 @@ public class NewBank {
 
 		accountHolder.addAccount(new Account(name, 0.00));
 
-		// Save the updated user data
+		// Save the new accounts to the text file
 		userManager.saveUserData(customers);
 
 		return "SUCCESS";

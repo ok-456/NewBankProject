@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+
+
 public class NewBankClientHandler extends Thread {
 	private NewBank bank;
 	private BufferedReader in;
@@ -15,6 +17,10 @@ public class NewBankClientHandler extends Thread {
 		bank = NewBank.getBank();
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		out = new PrintWriter(s.getOutputStream(), true);
+	}
+
+	private void runInnerLoop(){
+
 	}
 	public void run() {
 		boolean loginSuccessful = false;
