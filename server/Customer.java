@@ -28,6 +28,15 @@ public class Customer {
 		return  accounts.stream().anyMatch(account -> accountName.toLowerCase().equals(account.toString().split(":")[0].trim().toLowerCase()));
 	}
 
+	/**
+	 * Get the account object with the given name
+	 * @param accountName
+	 * @return the account object with the given name
+	 */
+	public Account getAccount(String accountName) {
+		return accounts.stream().filter(account -> accountName.toLowerCase().equals(account.toString().split(":")[0].trim().toLowerCase())).findFirst().orElse(null);
+	}
+
 
 	public void addAccount(Account account) {
 		accounts.add(account);		

@@ -20,4 +20,20 @@ public class Account {
 	public double getBalance() {
 		return openingBalance;
 	}
+
+	/**
+	 * Add the given amount to the account balance
+	 * @param amount
+	 */
+	public void deposit(double amount) {
+		openingBalance += amount;
+	}
+
+	/**
+	 * Subtract the given amount from the account balance
+	 * @param amount
+	 */
+	public void withdraw(double amount) {
+		openingBalance -= amount;
+	}
 }
