@@ -52,6 +52,7 @@ public class NewBank {
 			switch(command) {
 			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
 			case "NEWACCOUNT": return addNewAccount(customer, arguments);
+			case "MOVE": return moveMoney(customer, arguments);
 			default : return "FAIL";
 			}
 		}
@@ -89,6 +90,54 @@ public class NewBank {
 		}
 
 		accountHolder.addAccount(new Account(name, 0.00));
+
+		return "SUCCESS";
+	}
+
+	/**
+	 * Moves money from one account to another
+	 * @param customer The customer to move the money for
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
+	private String moveMoney(CustomerID customer, String[] arguments) {
+		String fromAccount;
+		String toAccount;
+		double amount;
+
+		if (arguments.length > 0) {
+			fromAccount = arguments[1];
+			toAccount = arguments[2];
+
+			try {
+				amount = Double.parseDouble(arguments[3]);
+			} catch (Exception e) {
+				return "FAIL";
+			}
+
+		} else {
+			return "FAIL";
+		}
+
+		Customer accountHolder = customers.get(customer.getKey());
+
+		if(accountHolder == null || fromAccount == null || fromAccount.isEmpty() || toAccount == null || toAccount.isEmpty()) {
+			return "FAIL";
+		}
+
+		if(!accountHolder.hasAccount(fromAccount) || !accountHolder.hasAccount(toAccount)) {
+			return "FAIL";
+		}
+
+		Account from = accountHolder.getAccount(fromAccount);
+		Account to = accountHolder.getAccount(toAccount);
+
+		if(from.getBalance() < amount) {
+			return "FAIL";
+		}
+
+		from.withdraw(amount);
+		to.deposit(amount);
 
 		return "SUCCESS";
 	}
