@@ -29,8 +29,7 @@ public class ExampleClient extends Thread {
 						System.out.println(response);
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
-					return;
+					//Ignore IOException when closing the BufferedReader
 				}
 			}
 		};
@@ -38,10 +37,9 @@ public class ExampleClient extends Thread {
 	}
 
 	public void run() {
-		boolean running = true;
 
 		try {
-			while (running) {
+			while (true) {
 				// Read user input
 				String command = userInput.readLine();
 
@@ -50,12 +48,14 @@ public class ExampleClient extends Thread {
 
 				// Check if the user wants to exit
 				if (command.equalsIgnoreCase("exit")) {
-					running = false;
-					System.out.println("Exiting...");
+					System.out.println("Exiting NewBank Application. Thank you for using our app.");
+					break;
 				}
 			}
+
 		} catch (IOException e) {
-			e.printStackTrace();
+
+
 		} finally {
 			try {
 				// Close resources
@@ -63,12 +63,12 @@ public class ExampleClient extends Thread {
 				bankServerOut.close();
 				server.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
 
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		new ExampleClient("localhost", 14002).start();
+
 	}
 }
