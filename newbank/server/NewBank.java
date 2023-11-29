@@ -82,7 +82,8 @@ public class NewBank {
 			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
 			case "NEWACCOUNT": return addNewAccount(customer, arguments);
 			case "MOVE": return moveMoney(customer, arguments);
-			case "EXIT": return null;
+			case "EXIT" : return null;
+			case "exit" : return null;
 
 			default : return "FAIL";
 			}
