@@ -95,20 +95,14 @@ public class NewBank {
 				default:
 					return "FAIL";
 			}
-			return "FAIL";
-		}
-	}
 
-	private String showMyAccounts(CustomerID customer) {
-		if (customers.containsKey(customer.getKey())) {
-			if (customers.get(customer.getKey()).accountsToString().isEmpty()) {
-				return "NO ACCOUNTS";
-			} else {
-				return customers.get(customer.getKey()).accountsToString();
-			}
-		} else {
-			return "FAIL";  // or an appropriate message
 		}
+
+		return "FAIL";
+
+	}
+	private String showMyAccounts(CustomerID customer) {
+		return (customers.get(customer.getKey())).accountsToString();
 	}
 
 	/**
