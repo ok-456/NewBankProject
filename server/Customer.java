@@ -5,6 +5,7 @@ public class Customer {
 
 	private String password;
 	private ArrayList<Account> accounts;
+	private CustomerID customerID;
 
 	public ArrayList<Account> getAccounts() {
 		return accounts;
@@ -20,7 +21,7 @@ public class Customer {
 	}
 
 	public Customer(String password) {
-
+		this.customerID = new CustomerID("");
 		this.password = password;
 		this.accounts = new ArrayList<>();
 	}
@@ -52,5 +53,9 @@ public class Customer {
 
 	public void addAccount(Account account) {
 		accounts.add(account);
+	}
+
+	public String getCustomerKey(){
+		return customerID.getUniqueKey();
 	}
 }
