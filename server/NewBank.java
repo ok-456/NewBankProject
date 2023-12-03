@@ -87,6 +87,8 @@ public class NewBank {
 					return addNewAccount(customer, arguments);
 				case "MOVE":
 					return moveMoney(customer, arguments);
+				case "PAY":
+					return payMoney(customer, arguments);
 				case "EXIT":
 					return null;
 				case "exit":
@@ -186,4 +188,47 @@ public class NewBank {
 
 		return "SUCCESS";
 	}
+
+	/**
+	 * Pays money to another user by their name
+	 * @param customer The customer to pay the money for
+	 * @param arguments The arguments passed in by the user
+	 * @return A string indicating whether the operation was successful or not
+	 */
+	private String payMoney(CustomerID customer, String[] arguments) {
+		String receiverName = arguments[0];
+		Double amount = 0.00;
+
+		try {
+			amount = Double.parseDouble(arguments[1]);
+		} catch (Exception e) {
+			return "FAIL";
+		}
+
+
+		Customer sender = customers.get(customer.getKey());
+		Customer receiver = customers.get(receiverName);
+
+		if (sender == null || receiver == null) {
+			return "FAIL";
+		}
+
+		if (!sender.hasAccount("main") || !receiver.hasAccount("main")) {
+			return "FAIL";
+		}
+
+		Account senderAccount = sender.getAccount("main");
+		Account receiverAccount = receiver.getAccount("main");
+
+		if (senderAccount.getBalance() < amount) {
+			return "FAIL";
+		}
+
+		senderAccount.withdraw(amount);
+		receiverAccount.deposit(amount);
+
+		return "SUCCESS";
+	}
+
+
 }
