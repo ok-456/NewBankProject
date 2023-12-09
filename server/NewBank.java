@@ -153,11 +153,11 @@ public class NewBank {
 		double amount;
 
 		if (arguments.length > 0) {
-			fromAccount = arguments[1];
-			toAccount = arguments[2];
+			fromAccount = arguments[0];
+			toAccount = arguments[1];
 
 			try {
-				amount = Double.parseDouble(arguments[3]);
+				amount = Double.parseDouble(arguments[2]);
 			} catch (Exception e) {
 				return "FAIL";
 			}
