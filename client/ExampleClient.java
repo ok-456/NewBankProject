@@ -29,7 +29,7 @@ public class ExampleClient extends Thread {
 						System.out.println(response);
 					}
 				} catch (IOException e) {
-					//Ignore IOException when closing the BufferedReader
+					// Ignore IOException when closing the BufferedReader
 				}
 			}
 		};
@@ -37,11 +37,10 @@ public class ExampleClient extends Thread {
 	}
 
 	public void run() {
-
 		try {
 			while (true) {
 				// Read user input
-				String command = userInput.readLine();
+				String command = getUserInput();
 
 				// Send user input to the server
 				bankServerOut.println(command);
@@ -52,10 +51,8 @@ public class ExampleClient extends Thread {
 					break;
 				}
 			}
-
 		} catch (IOException e) {
-
-
+			e.printStackTrace();
 		} finally {
 			try {
 				// Close resources
@@ -63,12 +60,38 @@ public class ExampleClient extends Thread {
 				bankServerOut.close();
 				server.close();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
+	// Add these methods to your ExampleClient class
+	public String getUserInput() throws IOException {
+		return userInput.readLine();
+	}
+
+	public String login(String username, String password) {
+		// You need to implement the logic for login here
+		// It might involve sending a specific command to the server
+		// and handling the server's response
+		return "LOGIN_RESULT";  // Replace with actual logic
+	}
+
+	public String processCommand(String command) {
+		// You need to implement the logic for processing commands here
+		// It might involve sending the command to the server
+		// and handling the server's response
+		return "COMMAND_RESULT";  // Replace with actual logic
+	}
+
+	public String register(String username, String password) {
+		// You need to implement the logic for registration here
+		// It might involve sending a specific command to the server
+		// and handling the server's response
+		return "REGISTRATION_RESULT";  // Replace with actual logic
+	}
+
 	public static void main(String[] args) throws UnknownHostException, IOException, InterruptedException {
 		new ExampleClient("localhost", 14002).start();
-
 	}
 }
