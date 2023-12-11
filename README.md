@@ -1,10 +1,10 @@
 # NewBankProject
 
 ## Description
-NewBank is a banking application where customers can interact with their accounts using the command-line interface. Using Java, NewBank allows customers to check balances, transfer money between accounts, and send money to other people's bank accounts. In the future, NewBank will also offer a micro-loan service, where users can provide other users safe and secure micro-loans for a small fee.
-
-## How to Install
-
+NewBank is a banking application where customers can interact with their accounts using the command-line interface. 
+Using Java, NewBank allows customers to check balances, transfer money between accounts, and send money to other 
+people's bank accounts. In the future, NewBank will also offer a micro-loan service, where users can provide other 
+users safe and secure micro-loans for a small fee.
 
 
 ## Instructions for Use
@@ -13,8 +13,11 @@ Upon successful login, users can use the following commands:
 
 SHOWMYACCOUNTS - displays what open accounts the user has.
 NEWACCOUNT - allows a user to create a new account.
-MOVE - moves money from one of the user's accounts to another. User should enter two strings along with the command: the first string ("fromAccount") is where the money originated and the second string ("toAccount") is the destination account.
-PAY - allows a user to send money to another user. User should enter two strings along with the command: the first string is the customer name of the intended recipient, and the second string is the desired amount of money. 
+MOVE - moves money from one of the user's accounts to another. User should enter two strings along with the command: 
+the first string ("fromAccount") is where the money originated and the second string ("toAccount") is the destination 
+account.
+PAY - allows a user to send money to another user. User should enter two strings along with the command: the first 
+string is the customer name of the intended recipient, and the second string is the desired amount of money. 
 exit/EXIT - will close the application.
 
 
@@ -30,7 +33,7 @@ exit/EXIT - will close the application.
 ## License
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) [2023] [NewBankProject]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
