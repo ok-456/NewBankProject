@@ -9,7 +9,7 @@ public class CustomerID {
 
 	
 	public CustomerID(String key) {
-		this.key = key; /* Used as Username at the moment, should be renamed as username*/
+		this.key = key; // Used as Username at the moment, should be renamed as username
 		this.uniqueKey = generateUniqueKey();
 	}
 	
