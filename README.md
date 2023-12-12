@@ -11,12 +11,16 @@ users safe and secure micro-loans for a small fee.
 
 Upon successful login, users can use the following commands: 
 
-SHOWMYACCOUNTS - displays what open accounts the user has.
-NEWACCOUNT - allows a user to create a new account.
-MOVE - moves money from one of the user's accounts to another. User should enter two strings along with the command: 
+## SHOWMYACCOUNTS 
+displays what open accounts the user has.
+## NEWACCOUNT 
+allows a user to create a new account.
+## MOVE 
+Moves money from one of the user's accounts to another. User should enter two strings along with the command: 
 the first string ("fromAccount") is where the money originated and the second string ("toAccount") is the destination 
 account.
-PAY - allows a user to send money to another user. User should enter two strings along with the command: the first 
+## PAY
+Allows a user to send money to another user. User should enter two strings along with the command: the first 
 string is the customer name of the intended recipient, and the second string is the desired amount of money. 
 exit/EXIT - will close the application.
 
