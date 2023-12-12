@@ -17,8 +17,10 @@ public class NewBankServer extends Thread{
 		userManager.loadUserData(NewBank.getBank().getCustomers());
 	}
 
+	/**
+	 * 	Starts up a new client handler thread to receive incoming connections and process requests
+	 */
 	public void run() {
-		// starts up a new client handler thread to receive incoming connections and process requests
 		System.out.println("New Bank Server listening on " + server.getLocalPort());
 		try {
 			while(true) {

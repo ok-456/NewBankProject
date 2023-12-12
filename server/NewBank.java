@@ -18,6 +18,9 @@ public class NewBank {
 		addTestData();
 	}
 	
+	/**
+	 * This method is used for testing purposes. It creates three customers and performs various functions.
+	 */
 	private void addTestData() {
 		Customer bhagy = new Customer("password1");
 		bhagy.addAccount(new Account("Main", 1000.0));
@@ -38,13 +41,17 @@ public class NewBank {
 		return bank;
 	}
 
-	// Returns customer map
+	/**
+	 * Returns customer map
+	 */
 	public Map<String, Customer> getCustomers() {
 		return customers;
 	}
 
 
-	// Checks login details
+	/**
+	 * Checks login details
+	 */
 	public synchronized String checkLogInDetails(String userName, String password) {
 		if (customers.containsKey(userName)) {
 			Customer customer = customers.get(userName);
@@ -60,6 +67,12 @@ public class NewBank {
 		}
 	}
 
+	/**
+	 * This method creates a new customer and adds to the customers HashMap
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
 	public synchronized String registerUser(String userName, String password) {
 		if (!customers.containsKey(userName)) {
 			// Create a new customer and add it to the customers HashMap
@@ -73,7 +86,12 @@ public class NewBank {
 		}
 	}
 
-	// commands from the NewBank customer are processed in this method
+	/**
+	 * Commands from the NewBank customer are processed in this method
+	 * @param customer
+	 * @param request
+	 * @return
+	 */
 	public synchronized String processRequest(CustomerID customer, String request) {
 		String[] requestParts = request.split(" ");
 		String command = requestParts[0];
@@ -103,6 +121,12 @@ public class NewBank {
 		return "FAIL";
 
 	}
+
+	/**
+	 * Displays a what accounts a customer has
+	 * @param customer
+	 * @return
+	 */
 	private String showMyAccounts(CustomerID customer) {
 		return (customers.get(customer.getKey())).accountsToString();
 	}

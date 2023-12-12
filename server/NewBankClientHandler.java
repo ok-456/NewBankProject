@@ -19,7 +19,6 @@ public class NewBankClientHandler extends Thread {
 		out = new PrintWriter(s.getOutputStream(), true);
 	}
 
-
 	public void run() {
 		boolean loginSuccessful = false;
 
@@ -44,7 +43,7 @@ public class NewBankClientHandler extends Thread {
 					out.println(loginResult);
 					String registerChoice = in.readLine();
 					if (registerChoice.equalsIgnoreCase(("yes"))) {
-						performRegistration(userName);
+						performRegistration(userName); // suggest adding in "y" or "n" inputs too.
 					}
 				} else {
 					out.println("Login failed: " + loginResult);
@@ -113,9 +112,4 @@ public class NewBankClientHandler extends Thread {
 			out.println("Registration failed: Passwords do not match. Please try again.");
 		}
 	}
-
-
-
-
-
 }
